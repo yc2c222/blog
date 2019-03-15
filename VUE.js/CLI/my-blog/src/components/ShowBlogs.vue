@@ -1,8 +1,8 @@
 <template>
   <div v-theme:column="'narrow'" id="show-blogs">
-    <h1>博客总览1</h1>
+    <h1>博客总览</h1>
     <input type="text" v-model="search" placeholder="搜索">
-    <div v-for="blog in filteredBlogs" class="single-blog">
+    <div v-for="blog in filteredBlogs" class="single-blog" :key="blog.title">
     	<router-link v-bind:to="'/blog/' + blog.id">
         <h2 v-rainbow>{{blog.title | to-uppercase}}</h2>
       </router-link>
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-
+  import axios from 'axios'
 export default {
   name: 'show-blogs',
   data(){
@@ -25,24 +25,18 @@ export default {
   	}
   },
   created(){
-  	this.$http.get('https://wd6168124500eyhczn.wilddogio.com/posts.json')
-  		.then(function(data){
-        return data.json()
-  			// console.log(data.json());
-  			// this.blogs = data.body.slice(0,10);
-  			// console.log(this.blogs);
+  	// this.$http.get('https://wd6168124500eyhczn.wilddogio.com/posts.json')
+    axios.get('/posts.json')
+  		.then(function(response){
+        return response.data;     //axios获取到的就是一个对象，不用使用json()解析。而对象里有一个属性为data，其中包含了所需的数据
   		})
-      .then(function(data){
+      .then((data) => {
         var blogsArray = [];
         for(let key in data){
-          // console.log(key);
-          // console.log(data[key]);
           data[key].id = key;
           blogsArray.push(data[key]);
         }
-        // console.log(blogsArray);
         this.blogs = blogsArray;
-        console.log(this.blogs);
       })
   },
   computed:{

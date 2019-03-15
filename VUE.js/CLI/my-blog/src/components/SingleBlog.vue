@@ -5,7 +5,7 @@
 		<p>作者: {{blog.author}}</p>
 		<p>分类:</p>
 		<ul>
-			<li v-for="category in blog.categories">
+			<li v-for="category in blog.categories" :key="category">
 				{{category}}
 			</li>
 		</ul>
@@ -15,6 +15,7 @@
 </template>
 
 <script>
+  import axios from 'axios'
 	export default{
 		name:"single-blog",
 		data(){
@@ -24,19 +25,15 @@
 			}
 		},
 		created(){
-			this.$http.get('https://wd6168124500eyhczn.wilddogio.com/posts/' + this.id + ".json")
-				.then(function(response){
-					console.log(response);
-					return response.json();
-					// this.blog = data.body;
-				})
-				.then(function(data){
-					this.blog = data;
+			// this.$http.get('https://wd6168124500eyhczn.wilddogio.com/posts/' + this.id + ".json")
+      axios.get('/posts/' + this.id + ".json")
+				.then((response) => {
+					this.blog = response.data;
 				})
 		},
 		methods:{
 			deleteSingleBlog(){
-				this.$http.delete("https://wd6168124500eyhczn.wilddogio.com/posts/" + this.id + ".json")
+				axios.delete("/posts/" + this.id + ".json")
 									.then(response =>{
 										this.$router.push({path:'/'})
 									})

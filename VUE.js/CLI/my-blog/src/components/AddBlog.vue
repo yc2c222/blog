@@ -48,6 +48,7 @@
 </template>
 
 <script>
+  import axios from 'axios'
 export default {
   // https://jsonplaceholder.typicode.com/
   // https://jsonplaceholder.typicode.com/posts
@@ -66,8 +67,10 @@ export default {
   },
   methods:{
     post:function(){
-      this.$http.post("https://wd6168124500eyhczn.wilddogio.com/posts.json",this.blog)
-          .then(function(data){
+      // this.$http.post("https://wd6168124500eyhczn.wilddogio.com/posts.json",this.blog)
+      //axios是目前主流的http请求库
+      axios.post("/posts.json",this.blog)
+          .then((data) => {
             console.log(data);
             this.submmited = true;
           });
