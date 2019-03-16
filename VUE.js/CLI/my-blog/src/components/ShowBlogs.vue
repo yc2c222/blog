@@ -66,7 +66,7 @@ export default {
 
 <style>
 #show-blogs{
-	max-width: 800px;
+	max-width: 1120px;
 	margin: 0 auto;
 }
 
